@@ -22,7 +22,7 @@ namespace Teario.Halloween
 				Debug.Assert( lEnemy != null );
 				if( lEnemy != null )
 				{
-					lEnemy.Spawn( m_TutorialEnemyPosition, Enemy.EnemyState.eIdle );
+                    lEnemy.Spawn( m_TutorialEnemyPosition, typeof( EnemyStateIdle ) );
 				}
 			}
 
@@ -85,7 +85,7 @@ namespace Teario.Halloween
 #if UNITY_EDITOR
 		void OnDrawGizmos()
 		{
-			Gizmos.DrawSphere( m_TutorialEnemyPosition, 1f );
+			Gizmos.DrawSphere( m_TutorialEnemyPosition, 0.5f );
 		}
 #endif
 	}
