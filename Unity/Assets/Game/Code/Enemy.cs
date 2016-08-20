@@ -15,47 +15,51 @@ namespace Teario.Halloween
 	
 		private EventRouter m_EventRouter;
 
-		public enum EnemyState
-		{
-			eIdle,
-			eWalking,
-			eBumpWait,
-			eAttack
-		};
-		
-		private EnemyState m_State;
+        private EnemyStateController m_StateController;
+
+        private bool m_IsInitialised = false;
 	
 		void Start()
 		{
-			ObjectLocator lLocator = FindObjectOfType<ObjectLocator>();
-			Debug.Assert( lLocator != null );
-			if( lLocator != null )
-			{
-				m_EventRouter = ObjectLocator.FindObjectOfType<EventRouter>();
-				Debug.Assert( m_EventRouter != null );
-			}
+            Init();
 		}
+
+        private void Init()
+        {
+            if( !m_IsInitialised )
+            {
+                ObjectLocator lLocator = FindObjectOfType<ObjectLocator>();
+                Debug.Assert( lLocator != null );
+                if( lLocator != null )
+                {
+                    m_EventRouter = ObjectLocator.FindObjectOfType<EventRouter>();
+                    Debug.Assert( m_EventRouter != null );
+                }
+    
+                m_StateController = GetComponentInChildren<EnemyStateController>();
+                Debug.Assert( m_StateController != null, "Failed to find enemy state controller" );
+
+                m_IsInitialised = true;
+            }
+        }
 		
-		public void Spawn( Vector3 lPosition, EnemyState lDefaultState = EnemyState.eWalking )
+        public void Spawn( Vector3 lPosition )
 		{
-			transform.position = lPosition;
-			m_Health = m_MaxHealth;
-			SetState( lDefaultState );
+            Spawn( lPosition, typeof( EnemyStateSpawn ) );
 		}
-		
-		void Update()
-		{
-			switch( m_State )
-			{
-				case EnemyState.eWalking:
-				{
-					Vector3 lTarget = Vector3.zero;
-					transform.LookAt( lTarget );
-					transform.position = Vector3.MoveTowards( transform.position, Vector3.zero, m_WalkSpeed * Time.deltaTime );
-				}
-				break;
-			}
-		}
+
+        public void Spawn( Vector3 lPosition, System.Type lDefaultState )
+        {
+            Init();
+
+            transform.position = lPosition;
+            m_Health = m_MaxHealth;
+            m_StateController.SetState( lDefaultState );
+        }
+
+        private void OnStateFinished( EnemyBaseState lState )
+        {
+        }
 	
 		public void TakeHit()
 		{
@@ -64,11 +68,6 @@ namespace Teario.Halloween
 				m_EventRouter.TriggerEvent( "enemy_despawn" );
 				ReturnToPool();
 			}
-		}
-
-		private void SetState( EnemyState lNewState )
-		{
-			m_State = lNewState;
 		}
 	}
 }
