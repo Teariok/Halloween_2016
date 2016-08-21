@@ -39,6 +39,32 @@ namespace Teario.Halloween
                 m_StateController = GetComponentInChildren<EnemyStateController>();
                 Debug.Assert( m_StateController != null, "Failed to find enemy state controller" );
 
+                NavMeshAgent lNavAgent = GetComponent<NavMeshAgent>();
+                Debug.Assert( lNavAgent != null, "Failed to find Navigation Agent" );
+                if( lNavAgent != null )
+                {
+                    lNavAgent.speed = m_WalkSpeed;
+
+                    EnemyStateSeekPlayer lSeekBehaviour = (EnemyStateSeekPlayer)m_StateController.FetchState( typeof(EnemyStateSeekPlayer) );
+                    Debug.Assert( lSeekBehaviour != null );
+                    lSeekBehaviour.SetNavigationAgent( lNavAgent );
+                }
+
+                EnemyStateDie lDeathBehaviour = (EnemyStateDie)m_StateController.FetchState( typeof(EnemyStateDie) );
+                Debug.Assert( lDeathBehaviour != null );
+                lDeathBehaviour.RegisterCompletionListener( Despawn );
+
+                NavMeshObstacle lNavObstacle = GetComponent<NavMeshObstacle>();
+                Debug.Assert( lNavObstacle != null, "Failed to find Navigation Obstacle" );
+                if( lNavObstacle != null )
+                {
+                    EnemyStateAttackPlayer lAttackBehaviour = (EnemyStateAttackPlayer)m_StateController.FetchState( typeof(EnemyStateAttackPlayer) );
+                    Debug.Assert( lAttackBehaviour != null );
+
+                    lAttackBehaviour.SetNavigationObstacle( lNavObstacle );
+                    lDeathBehaviour.SetNavigationObstacle( lNavObstacle );
+                }
+
                 m_IsInitialised = true;
             }
         }
@@ -65,9 +91,14 @@ namespace Teario.Halloween
 		{
 			if( m_Health > 0 && (--m_Health <= 0) )
 			{
-				m_EventRouter.TriggerEvent( "enemy_despawn" );
-				ReturnToPool();
+                m_StateController.SetState( typeof(EnemyStateDie) );
 			}
 		}
+
+        private void Despawn( System.Type lNextState )
+        {
+            m_EventRouter.TriggerEvent( "enemy_despawn" );
+            ReturnToPool();
+        }
 	}
 }

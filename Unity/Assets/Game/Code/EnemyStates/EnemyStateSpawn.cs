@@ -30,7 +30,7 @@ namespace Teario.Halloween
             transform.position = lPos;
 
             PlayAnimation( ANIMATION_NAME, () => {
-                m_StateExitCallback( typeof(EnemyStateIdle) );
+                m_StateExitCallback( typeof(EnemyStateSeekPlayer) );
             });
         }
     

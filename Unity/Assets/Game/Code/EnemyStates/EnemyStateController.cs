@@ -36,13 +36,16 @@ namespace Teario.Halloween
             }
     
             m_Current = FetchState( lState );
-            Debug.Assert( m_Current != null, "Failed to find state " + lState );
-
-            if( m_Current != null )
+            if( lState != null )
             {
-                m_Current.RegisterCompletionListener( OnStateFinishedCallback );
-                m_Current.gameObject.SetActive( true );
-                m_Current.EnterState();
+                Debug.Assert( m_Current != null, "Failed to find state " + lState );
+    
+                if( m_Current != null )
+                {
+                    m_Current.RegisterCompletionListener( OnStateFinishedCallback );
+                    m_Current.gameObject.SetActive( true );
+                    m_Current.EnterState();
+                }
             }
     
             return m_Current != null;
