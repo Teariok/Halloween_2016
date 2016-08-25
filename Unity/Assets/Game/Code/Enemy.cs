@@ -10,13 +10,13 @@ namespace Teario.Halloween
 		private float m_WalkSpeed;
 		[SerializeField]
 		private int m_MaxHealth;
+        [SerializeField]
+        private GameObject m_AttackCollider;
+
 		
 		private int m_Health;
-	
 		private EventRouter m_EventRouter;
-
         private EnemyStateController m_StateController;
-
         private bool m_IsInitialised = false;
 	
 		void Start()
@@ -48,6 +48,7 @@ namespace Teario.Halloween
                     EnemyStateSeekPlayer lSeekBehaviour = (EnemyStateSeekPlayer)m_StateController.FetchState( typeof(EnemyStateSeekPlayer) );
                     Debug.Assert( lSeekBehaviour != null );
                     lSeekBehaviour.SetNavigationAgent( lNavAgent );
+                    lSeekBehaviour.SetMoveSpeed( m_WalkSpeed );
                 }
 
                 EnemyStateDie lDeathBehaviour = (EnemyStateDie)m_StateController.FetchState( typeof(EnemyStateDie) );
@@ -62,6 +63,8 @@ namespace Teario.Halloween
                     Debug.Assert( lAttackBehaviour != null );
 
                     lAttackBehaviour.SetNavigationObstacle( lNavObstacle );
+                    lAttackBehaviour.SetAttackCollider( m_AttackCollider );
+
                     lDeathBehaviour.SetNavigationObstacle( lNavObstacle );
                 }
 
@@ -91,6 +94,7 @@ namespace Teario.Halloween
 		{
 			if( m_Health > 0 && (--m_Health <= 0) )
 			{
+                m_EventRouter.TriggerEvent( "enemy_destroyed" );
                 m_StateController.SetState( typeof(EnemyStateDie) );
 			}
 		}

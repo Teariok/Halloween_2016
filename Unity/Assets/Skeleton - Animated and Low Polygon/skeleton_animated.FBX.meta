@@ -1522,8 +1522,8 @@ ModelImporter:
       name: Run
       takeName: Take 001
       firstFrame: 814
-      lastFrame: 831
-      wrapMode: 0
+      lastFrame: 830
+      wrapMode: 2
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
@@ -2352,8 +2352,8 @@ ModelImporter:
       name: SwingNormal
       takeName: Take 001
       firstFrame: 1013
-      lastFrame: 1103
-      wrapMode: 0
+      lastFrame: 1102
+      wrapMode: 2
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
