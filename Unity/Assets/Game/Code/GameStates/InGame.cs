@@ -11,6 +11,7 @@ namespace Teario.Halloween
 		[SerializeField]
 		private int m_SpawnerIncreaseStep;
 
+        private MenuManager m_MenuManager;
 		private EnemySpawner[] m_EnemySpawners;
 		private int m_EnemiesKilled;
 
@@ -29,13 +30,14 @@ namespace Teario.Halloween
 				if( lEvents != null )
 				{
 					lEvents.RegisterListener( "enemy_despawn", OnEnemyDespawned );
+                    lEvents.RegisterListener( "player_death", OnPlayerKilled );
 				}
 
-				MenuManager lMenus = m_ObjectLocator.FetchObject<MenuManager>();
-				Debug.Assert( lMenus != null );
-				if( lMenus != null )
+				m_MenuManager = m_ObjectLocator.FetchObject<MenuManager>();
+				Debug.Assert( m_MenuManager != null );
+				if( m_MenuManager != null )
 				{
-					lMenus.PushMenu( typeof(GameHUD) );
+					m_MenuManager.PushMenu( typeof(GameHUD) );
 				}
 			}
 		}
@@ -88,5 +90,10 @@ namespace Teario.Halloween
 				}
 			}
 		}
+
+        private void OnPlayerKilled()
+        {
+            m_MenuManager.PushMenu( typeof(GameOverMenu) );
+        }
 	}
 }
