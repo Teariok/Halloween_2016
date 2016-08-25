@@ -2,6 +2,7 @@
 using System.Collections;
 using Teario.Util;
 using System.IO.Ports;
+using System.IO;
 
 namespace Teario.Halloween
 {
@@ -36,11 +37,28 @@ namespace Teario.Halloween
 		
 		}
 
+        private string[] FetchAvailablePorts()
+        {
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+            return SerialPort.GetPortNames();
+#elif UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX || UNITY_STANDALONE_LINUX
+            string[] lCandidates = Directory.GetFiles( "/dev", "tty.usbmodem*" );
+            for( int i = 0; i < lCandidates.Length; ++i )
+            {
+                Debug.Log(lCandidates[i]);
+            }
+
+            return lCandidates;
+#else
+            return null;
+#endif
+        }
+
 		private void OnEnemyDespawned()
 		{
 			if( m_SerialPort != null )
 			{
-				m_SerialPort.Write("1");
+                m_SerialPort.Write( "1" );
 				m_SerialPort.BaseStream.Flush();
 			}
 		}
