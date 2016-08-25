@@ -31,11 +31,6 @@ namespace Teario.Halloween
 				}
 			}
 		}
-		
-		void Update()
-		{
-		
-		}
 
         private string[] FetchAvailablePorts()
         {

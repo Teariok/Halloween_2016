@@ -58,7 +58,7 @@ namespace Teario.Halloween
             m_PlayerActive = true;
         }
 
-        void OnCollisionEnter( Collision lCollision )
+        void OnTriggerEnter( Collider lCollision )
         {
             if( m_PlayerActive )
             {
