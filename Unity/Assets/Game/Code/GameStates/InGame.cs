@@ -31,6 +31,7 @@ namespace Teario.Halloween
 				{
 					lEvents.RegisterListener( "enemy_despawn", OnEnemyDespawned );
                     lEvents.RegisterListener( "player_death", OnPlayerKilled );
+                    lEvents.TriggerEvent( "game_start" );
 				}
 
 				m_MenuManager = m_ObjectLocator.FetchObject<MenuManager>();
