@@ -12,6 +12,10 @@ namespace Teario.Halloween
 		private int m_MaxHealth;
         [SerializeField]
         private GameObject m_AttackCollider;
+        [SerializeField]
+        private ParticleSystem m_SpawnParticleSystem;
+        [SerializeField]
+        private ParticleSystem m_DespawnParticleSystem;
 
 		
 		private int m_Health;
@@ -54,6 +58,11 @@ namespace Teario.Halloween
                 EnemyStateDie lDeathBehaviour = (EnemyStateDie)m_StateController.FetchState( typeof(EnemyStateDie) );
                 Debug.Assert( lDeathBehaviour != null );
                 lDeathBehaviour.RegisterCompletionListener( Despawn );
+                lDeathBehaviour.SetDespawnParticleSystem( m_DespawnParticleSystem );
+
+                EnemyStateSpawn lSpawnBehaviour = (EnemyStateSpawn)m_StateController.FetchState( typeof(EnemyStateSpawn) );
+                Debug.Assert( lSpawnBehaviour != null );
+                lSpawnBehaviour.SetSpawnParticleSystem( m_SpawnParticleSystem );
 
                 NavMeshObstacle lNavObstacle = GetComponent<NavMeshObstacle>();
                 Debug.Assert( lNavObstacle != null, "Failed to find Navigation Obstacle" );

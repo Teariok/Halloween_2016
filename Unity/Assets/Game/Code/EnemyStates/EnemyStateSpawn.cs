@@ -15,6 +15,7 @@ namespace Teario.Halloween
         private float m_AnimationTimer;
         private const string ANIMATION_NAME = "Resurrection";
         private Vector3 m_BasePosition;
+        private ParticleSystem m_SpawnParticleSystem;
 
         public override void EnterState()
         {
@@ -29,6 +30,9 @@ namespace Teario.Halloween
             lPos.y = -10f;
             transform.position = lPos;
 
+            //m_SpawnParticleSystem.emission.rate = 0;
+            m_SpawnParticleSystem.Play();
+
             PlayAnimation( ANIMATION_NAME, () => {
                 m_StateExitCallback( typeof(EnemyStateSeekPlayer) );
             });
@@ -36,6 +40,7 @@ namespace Teario.Halloween
     
         public override void ExitState()
         {
+            m_SpawnParticleSystem.Stop();
         }
 
         void Update()
@@ -48,7 +53,14 @@ namespace Teario.Halloween
                 lPosition.y = m_BasePosition.y + (m_SpawnPeakHeight * lSample);
 
                 m_RootTransform.position = lPosition;
+
+                m_SpawnParticleSystem.maxParticles = (int)(100f * lSample);
             }
+        }
+
+        public void SetSpawnParticleSystem( ParticleSystem lParticleSystem )
+        {
+            m_SpawnParticleSystem = lParticleSystem;
         }
     }
 }
