@@ -73,6 +73,13 @@ namespace Teario.Halloween
 				{
 					lMenus.PopMenu();
 				}
+
+                WeaponController lWeaponController = m_ObjectLocator.FetchObject<WeaponController>();
+                Debug.Assert( lWeaponController != null );
+                if( lWeaponController != null )
+                {
+                    lWeaponController.SetFiringEnabled( false );
+                }
 			}
 		}
 

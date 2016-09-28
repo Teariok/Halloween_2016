@@ -45,6 +45,17 @@ namespace Teario.Halloween
 			}
 		}
 
+        public override void OnPostEnter()
+        {
+            WeaponController lWeaponController = m_ObjectLocator.FetchObject<WeaponController>();
+            Debug.Assert( lWeaponController != null );
+
+            if( lWeaponController != null )
+            {
+                lWeaponController.SetFiringEnabled( true );
+            }
+        }
+
 		public override void OnPreExit()
 		{
 			Debug.Assert( m_ObjectLocator != null );
