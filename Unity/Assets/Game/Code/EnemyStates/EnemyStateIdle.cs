@@ -5,7 +5,7 @@ namespace Teario.Halloween
 {
     public class EnemyStateIdle : EnemyBaseState
     {
-        private const string ANIMATION_NAME = "Idle";
+        private const string ANIMATION_NAME = "idle";
 
         public override void EnterState()
         {

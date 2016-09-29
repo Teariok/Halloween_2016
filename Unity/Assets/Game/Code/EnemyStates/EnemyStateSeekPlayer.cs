@@ -13,8 +13,8 @@ namespace Teario.Halloween
         private NavMeshAgent m_NavAgent;
         private float m_Speed;
     
-        private const string ANIMATION_WALK_NAME = "Walk01";
-        private const string ANIMATION_RUN_NAME = "Run";
+        private const string ANIMATION_WALK_NAME = "walk";
+        private const string ANIMATION_RUN_NAME = "run";
         private const float RUN_SWITCH_SPEED = 5f;
     
         public override void EnterState()

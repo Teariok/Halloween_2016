@@ -13,7 +13,7 @@ namespace Teario.Halloween
         private float m_SpawnAnimateTime;
 
         private float m_AnimationTimer;
-        private const string ANIMATION_NAME = "Resurrection";
+        private const string ANIMATION_NAME = "surface";
         private Vector3 m_BasePosition;
         private ParticleSystem m_SpawnParticleSystem;
 

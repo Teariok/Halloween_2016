@@ -5,7 +5,7 @@ namespace Teario.Halloween
 {
     public class EnemyStateDie : EnemyBaseState
     {
-        private const string ANIMATION_NAME = "Death";
+        private const string ANIMATION_NAME = "die";
 
         private NavMeshObstacle m_NavObstacle;
         private ParticleSystem m_DespawnParticleSystem;

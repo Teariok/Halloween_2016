@@ -5,7 +5,7 @@ namespace Teario.Halloween
 {
     public class EnemyStateAttackPlayer : EnemyBaseState
     {
-        private const string ANIMATION_NAME = "SwingNormal";
+        private const string ANIMATION_NAME = "attack2";
 
         private NavMeshObstacle m_NavObstacle;
         private GameObject m_AttackCollider;
