@@ -55,10 +55,14 @@ namespace Teario.Halloween
                     lSeekBehaviour.SetMoveSpeed( m_WalkSpeed );
                 }
 
+                Renderer lRenderer = GetComponentInChildren<Renderer>();
+                Debug.Assert( lRenderer != null && lRenderer.material != null );
+
                 EnemyStateDie lDeathBehaviour = (EnemyStateDie)m_StateController.FetchState( typeof(EnemyStateDie) );
                 Debug.Assert( lDeathBehaviour != null );
                 lDeathBehaviour.RegisterCompletionListener( Despawn );
                 lDeathBehaviour.SetDespawnParticleSystem( m_DespawnParticleSystem );
+                lDeathBehaviour.SetMaterial( lRenderer.material );
 
                 EnemyStateSpawn lSpawnBehaviour = (EnemyStateSpawn)m_StateController.FetchState( typeof(EnemyStateSpawn) );
                 Debug.Assert( lSpawnBehaviour != null );
