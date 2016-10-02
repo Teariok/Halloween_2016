@@ -15,7 +15,7 @@ namespace Teario.Halloween
     
         private const string ANIMATION_WALK_NAME = "walk";
         private const string ANIMATION_RUN_NAME = "run";
-        private const float RUN_SWITCH_SPEED = 5f;
+        private const float RUN_SWITCH_SPEED = 4f;
     
         public override void EnterState()
         {
