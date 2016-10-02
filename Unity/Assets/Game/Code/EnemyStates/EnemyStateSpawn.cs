@@ -19,18 +19,6 @@ namespace Teario.Halloween
 
         public override void EnterState()
         {
-            Vector3 lPos = m_RootTransform.position;
-            m_BasePosition = lPos;
-            m_AnimationTimer = m_SpawnAnimateTime;
-
-            m_RootTransform.LookAt( Vector3.zero );
-
-            // Force position under ground so it doesn't briefly show up
-            // in the scene (we're spawning from underground)
-            lPos.y = -10f;
-            transform.position = lPos;
-
-            //m_SpawnParticleSystem.emission.rate = 0;
             m_SpawnParticleSystem.Play();
 
             PlayAnimation( ANIMATION_NAME, () => {
@@ -41,21 +29,6 @@ namespace Teario.Halloween
         public override void ExitState()
         {
             m_SpawnParticleSystem.Stop();
-        }
-
-        void Update()
-        {
-            if( (m_AnimationTimer -= Time.deltaTime) >= 0 )
-            {
-                float lSample = m_SpawnHeightCurve.Evaluate( 1.0f - (m_AnimationTimer / m_SpawnAnimateTime) );
-                Vector3 lPosition = m_RootTransform.position;
-
-                lPosition.y = m_BasePosition.y + (m_SpawnPeakHeight * lSample);
-
-                m_RootTransform.position = lPosition;
-
-                m_SpawnParticleSystem.maxParticles = (int)(100f * lSample);
-            }
         }
 
         public void SetSpawnParticleSystem( ParticleSystem lParticleSystem )
