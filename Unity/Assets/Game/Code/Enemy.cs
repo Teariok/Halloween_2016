@@ -11,8 +11,6 @@ namespace Teario.Halloween
 		[SerializeField]
 		private int m_MaxHealth;
         [SerializeField]
-        private GameObject m_AttackCollider;
-        [SerializeField]
         private ParticleSystem m_SpawnParticleSystem;
         [SerializeField]
         private ParticleSystem m_DespawnParticleSystem;
@@ -76,7 +74,6 @@ namespace Teario.Halloween
                     Debug.Assert( lAttackBehaviour != null );
 
                     lAttackBehaviour.SetNavigationObstacle( lNavObstacle );
-                    lAttackBehaviour.SetAttackCollider( m_AttackCollider );
 
                     lDeathBehaviour.SetNavigationObstacle( lNavObstacle );
                 }
@@ -105,11 +102,18 @@ namespace Teario.Halloween
 	
 		public void TakeHit()
 		{
-			if( m_Health > 0 && (--m_Health <= 0) )
-			{
-                m_EventRouter.TriggerEvent( "enemy_destroyed" );
-                m_StateController.SetState( typeof(EnemyStateDie) );
-			}
+			if( m_Health > 0 )
+            {
+                if( (--m_Health) <= 0 )
+    			{
+                    m_EventRouter.TriggerEvent( "enemy_destroyed" );
+                    m_StateController.SetState( typeof(EnemyStateDie) );
+    			}
+                else
+                {
+                    m_StateController.SetState( typeof(EnemyStateHurt) );
+                }
+            }
 		}
 
         private void Despawn( System.Type lNextState )

@@ -11,6 +11,9 @@ namespace Teario.Halloween
 
         [SerializeField]
         protected Transform m_RootTransform;
+
+        private string m_CachedAnimName = null;
+        private Action m_CachedAnimCallback = null;
     
         protected AnimationController m_AnimController;
         protected System.Action<Type> m_StateExitCallback;
@@ -19,6 +22,13 @@ namespace Teario.Halloween
         {
             m_AnimController = GetComponentInParent<AnimationController>();
             Debug.Assert( m_AnimController != null, "Failed to find enemy animation controller" );
+
+            if( !string.IsNullOrEmpty( m_CachedAnimName ) )
+            {
+                PlayAnimation( m_CachedAnimName, m_CachedAnimCallback );
+                m_CachedAnimName = null;
+                m_CachedAnimCallback = null;
+            }
         }
 
         public void RegisterCompletionListener( Action<Type> lListener )
@@ -33,11 +43,21 @@ namespace Teario.Halloween
 
         protected bool PlayAnimation( string lAnimName, Action lCallback = null )
         {
-            bool lResult = m_AnimController.Play( lAnimName );
+            bool lResult = false;
 
-            if( lCallback != null )
+            if( m_AnimController != null )
             {
-                StartCoroutine( WaitForAnimFinish( lCallback ) );
+                lResult = m_AnimController.Play( lAnimName );
+
+                if( lCallback != null )
+                {
+                    StartCoroutine( WaitForAnimFinish( lCallback ) );
+                }
+            }
+            else
+            {
+                m_CachedAnimName = lAnimName;
+                m_CachedAnimCallback = lCallback;
             }
 
             return lResult;

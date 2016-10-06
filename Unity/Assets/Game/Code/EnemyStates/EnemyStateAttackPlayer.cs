@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Teario.Util;
 
 namespace Teario.Halloween
 {
@@ -7,11 +8,23 @@ namespace Teario.Halloween
     {
         private const string ANIMATION_NAME = "attack2";
 
+        [SerializeField]
+        private float m_AttackGraceDuration;
+
+        private float m_AttackGraceTimer;
         private NavMeshObstacle m_NavObstacle;
-        private GameObject m_AttackCollider;
+        private EventRouter m_EventRouter;
 
         public override void EnterState()
         {
+            if( m_EventRouter == null )
+            {
+                ObjectLocator lLocator = FindObjectOfType<ObjectLocator>();
+                Debug.Assert( lLocator != null );
+                m_EventRouter = lLocator.FetchObject<EventRouter>();
+                Debug.Assert( m_EventRouter != null );
+            }
+
             m_NavObstacle.enabled = true;
 
             m_RootTransform.LookAt( Vector3.zero );
@@ -20,14 +33,12 @@ namespace Teario.Halloween
             m_RootTransform.rotation = lRot;
 
             PlayAnimation( ANIMATION_NAME );
-
-            m_AttackCollider.SetActive( true );
+            m_AttackGraceTimer = m_AttackGraceDuration;
         }
         
         public override void ExitState()
         {
             m_NavObstacle.enabled = false;
-            m_AttackCollider.SetActive( false );
         }
     
         public void SetNavigationObstacle( NavMeshObstacle lNavObstacle )
@@ -35,9 +46,12 @@ namespace Teario.Halloween
             m_NavObstacle = lNavObstacle;
         }
 
-        public void SetAttackCollider( GameObject lObject )
+        void Update()
         {
-            m_AttackCollider = lObject;
+            if( m_AttackGraceTimer > 0f && (m_AttackGraceTimer -= Time.deltaTime) <= 0f )
+            {
+                m_EventRouter.TriggerEvent( "enemy_attack_complete" );
+            }
         }
     }
 }
