@@ -23,6 +23,7 @@ namespace Teario.Halloween
                 Debug.Assert( m_EventRouter != null );
 
                 m_EventRouter.RegisterListener( "game_start", OnGameStarted );
+                m_EventRouter.RegisterListener( "enemy_attack_complete", OnEnemyAttackFinished );
             }
 
 			//m_InitialDirection = transform.rotation;
@@ -34,7 +35,7 @@ namespace Teario.Halloween
             m_PlayerActive = true;
         }
 
-        void OnTriggerEnter( Collider lCollision )
+        void OnEnemyAttackFinished( )
         {
             if( m_PlayerActive )
             {
