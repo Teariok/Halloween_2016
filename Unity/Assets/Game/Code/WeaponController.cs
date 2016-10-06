@@ -66,6 +66,12 @@ namespace Teario.Halloween
                     {
                         m_ActiveInput = lIndex;
                         m_WeaponState = eWeaponState.REGISTERED;
+
+                        ObjectLocator lLocator = FindObjectOfType<ObjectLocator>();
+                        Debug.Assert( lLocator != null );
+                        PointerFollower lFollower = lLocator.FetchObject<PointerFollower>();
+                        Debug.Assert( lFollower != null );
+                        lFollower.SetController( m_AvailableInputs[m_ActiveInput] );
                     }
                     else
                     {
