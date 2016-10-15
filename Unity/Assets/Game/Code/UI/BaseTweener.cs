@@ -9,7 +9,8 @@ namespace Teario.Halloween
         {
             STATE_NONE,
             STATE_DELAY,
-            STATE_TWEEN
+            STATE_TWEEN,
+            STATE_COMPLETE
         };
 
         [SerializeField]
@@ -53,8 +54,7 @@ namespace Teario.Halloween
                 else
                 {
                     UpdateTween( 1f );
-                    m_State = eState.STATE_NONE;
-                    enabled = false;
+                    m_State = eState.STATE_COMPLETE;
                 }
             }
         }
@@ -71,6 +71,18 @@ namespace Teario.Halloween
         {
             m_Reverse = true;
             enabled = true;
+        }
+
+        public float GetPosition()
+        {
+            float lProgress = m_Timer / m_Duration;
+
+            if( m_Reverse )
+            {
+                return 1f - lProgress;
+            }
+
+            return lProgress;
         }
     }
 }
