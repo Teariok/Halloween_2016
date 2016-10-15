@@ -32,26 +32,32 @@ namespace Teario.Util
 				BaseMenu lCurrent = m_Menus.Count == 0 ? null : m_Menus.Peek();
 				BaseMenu lNext = m_AllMenus[lTarget];
 
+                Action lPostExitHandler = () => {
+                    lNext.OnPreEnter();
+
+                    if( lCurrent != null )
+                    {
+                        lCurrent.gameObject.SetActive( false );
+                    }
+    
+                    m_Menus.Push( lNext );
+                    lNext.gameObject.SetActive( true );
+                    
+                    lNext.OnPostEnter();
+                    if( lCurrent != null )
+                    {
+                        lCurrent.OnPostExit();
+                    }
+                };
+
 				if( lCurrent != null )
 				{
-					lCurrent.OnPreExit();
+					lCurrent.OnPreExit( lPostExitHandler );
 				}
-
-				lNext.OnPreEnter();
-
-				if( lCurrent != null )
-				{
-					lCurrent.gameObject.SetActive( false );
-				}
-
-				m_Menus.Push( lNext );
-				lNext.gameObject.SetActive( true );
-				
-				lNext.OnPostEnter();
-				if( lCurrent != null )
-				{
-					lCurrent.OnPostExit();
-				}
+                else
+                {
+                    lPostExitHandler();
+                }
 
 				return true;
 			}
@@ -67,22 +73,25 @@ namespace Teario.Util
 				BaseMenu lNext = m_Menus.Count == 0 ? null : m_Menus.Peek();
 
 				Debug.Assert( lCurrent != null );
+
+                Action lExitHandler = () => {
+                    if( lNext != null )
+                    {
+                        lNext.OnPreEnter();
+                    }
+    
+                    lCurrent.gameObject.SetActive( false );
+    
+                    if( lNext != null )
+                    {
+                        lNext.gameObject.SetActive( true );
+                        lNext.OnPostEnter();
+                    }
+    
+                    lCurrent.OnPostExit();
+                };
 	
-				lCurrent.OnPreExit();
-				if( lNext != null )
-				{
-					lNext.OnPreEnter();
-				}
-
-				lCurrent.gameObject.SetActive( false );
-
-				if( lNext != null )
-				{
-					lNext.gameObject.SetActive( true );
-					lNext.OnPostEnter();
-				}
-
-				lCurrent.OnPostExit();
+				lCurrent.OnPreExit( lExitHandler );
 
 				return true;
 			}

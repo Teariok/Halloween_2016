@@ -28,7 +28,7 @@ namespace Teario.Halloween
 			}
 		}
 
-		public override void OnPreExit()
+        public override void OnPreExit( System.Action lCallback )
 		{
 			Debug.Assert( m_Locator != null );
 			EventRouter lEvents = m_Locator.FetchObject<EventRouter>();
@@ -40,11 +40,14 @@ namespace Teario.Halloween
 			}
 
 			Reset();
+
+            lCallback();
 		}
 
 		private void Reset()
 		{
 			m_CurrentScore = 0;
+            UpdateScore();
 		}
 
 		private void OnEnemyDespawned()

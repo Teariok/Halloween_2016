@@ -7,7 +7,7 @@ namespace Teario.Util
 	{
 		public virtual void OnPreEnter(){}
 		public virtual void OnPostEnter(){}
-		public virtual void OnPreExit(){}
+        public virtual void OnPreExit( System.Action lCallback ){ lCallback(); }
 		public virtual void OnPostExit(){}
 	}
 }
