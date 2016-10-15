@@ -77,7 +77,33 @@ namespace Teario.Util
 
 		public bool PopState()
 		{
-			return true;
+            if( m_States.Count > 0 )
+            {
+                BaseState lCurrent = m_States.Pop();
+                BaseState lNext = m_States.Count == 0 ? null : m_States.Peek();
+
+                Debug.Assert( lCurrent != null );
+
+                lCurrent.OnPreExit();
+                if( lNext != null )
+                {
+                    lNext.OnPreEnter();
+                }
+
+                lCurrent.gameObject.SetActive( false );
+
+                if( lNext != null )
+                {
+                    lNext.gameObject.SetActive( true );
+                    lNext.OnPostEnter();
+                }
+
+                lCurrent.OnPostExit();
+
+                return true;
+            }
+
+			return false;
 		}
 	}
 }
