@@ -35,6 +35,7 @@ namespace Teario.Halloween
                 if( lLocator != null )
                 {
                     m_EventRouter = ObjectLocator.FindObjectOfType<EventRouter>();
+                    m_EventRouter.RegisterListener( "game_reset", OnGameReset );
                     Debug.Assert( m_EventRouter != null );
                 }
     
@@ -119,6 +120,11 @@ namespace Teario.Halloween
         private void Despawn( System.Type lNextState )
         {
             m_EventRouter.TriggerEvent( "enemy_despawn" );
+            ReturnToPool();
+        }
+
+        private void OnGameReset()
+        {
             ReturnToPool();
         }
 	}
