@@ -11,6 +11,7 @@ namespace Teario.Halloween
 		[SerializeField]
 		private int m_SpawnerIncreaseStep;
 
+        private EventRouter m_EventRouter;
         private MenuManager m_MenuManager;
 		private EnemySpawner[] m_EnemySpawners;
 		private int m_EnemiesKilled;
@@ -25,13 +26,14 @@ namespace Teario.Halloween
 			Debug.Assert( m_ObjectLocator != null );
 			if( m_ObjectLocator != null )
 			{
-				EventRouter lEvents = m_ObjectLocator.FetchObject<EventRouter>();
-				Debug.Assert( lEvents != null );
-				if( lEvents != null )
+				m_EventRouter = m_ObjectLocator.FetchObject<EventRouter>();
+				Debug.Assert( m_EventRouter != null );
+				if( m_EventRouter != null )
 				{
-					lEvents.RegisterListener( "enemy_despawn", OnEnemyDespawned );
-                    lEvents.RegisterListener( "player_death", OnPlayerKilled );
-                    lEvents.TriggerEvent( "game_start" );
+					m_EventRouter.RegisterListener( "enemy_despawn", OnEnemyDespawned );
+                    m_EventRouter.RegisterListener( "player_death", OnPlayerKilled );
+                    m_EventRouter.RegisterListener( "game_covered", OnGameCovered );
+                    m_EventRouter.TriggerEvent( "game_start" );
 				}
 
 				m_MenuManager = m_ObjectLocator.FetchObject<MenuManager>();
@@ -57,30 +59,22 @@ namespace Teario.Halloween
 				m_EnemySpawners[i].gameObject.SetActive( false );
 			}
 
-			Debug.Assert( m_ObjectLocator != null );
-			if( m_ObjectLocator != null )
+			if( m_EventRouter != null )
 			{
-				EventRouter lEvents = m_ObjectLocator.FetchObject<EventRouter>();
-				Debug.Assert( lEvents != null );
-				if( lEvents != null )
-				{
-					lEvents.DeregisterListener( "enemy_despawn", OnEnemyDespawned );
-				}
-
-				MenuManager lMenus = m_ObjectLocator.FetchObject<MenuManager>();
-				Debug.Assert( lMenus != null );
-				if( lMenus != null )
-				{
-					lMenus.PopMenu();
-				}
-
-                WeaponController lWeaponController = m_ObjectLocator.FetchObject<WeaponController>();
-                Debug.Assert( lWeaponController != null );
-                if( lWeaponController != null )
-                {
-                    lWeaponController.SetFiringEnabled( false );
-                }
+				m_EventRouter.DeregisterListener( "enemy_despawn", OnEnemyDespawned );
 			}
+
+			if( m_MenuManager != null )
+			{
+				m_MenuManager.PopMenu();
+			}
+
+            WeaponController lWeaponController = m_ObjectLocator.FetchObject<WeaponController>();
+            Debug.Assert( lWeaponController != null );
+            if( lWeaponController != null )
+            {
+                lWeaponController.SetFiringEnabled( false );
+            }
 		}
 
 		private void OnEnemyDespawned()
@@ -102,6 +96,23 @@ namespace Teario.Halloween
         private void OnPlayerKilled()
         {
             m_MenuManager.PushMenu( typeof(GameOverMenu) );
+        }
+
+        private void OnGameCovered()
+        {
+            m_EventRouter.TriggerEvent("game_reset");
+            Debug.Assert( m_ObjectLocator != null );
+
+            if( m_ObjectLocator != null )
+            {
+                StateManager lStates = m_ObjectLocator.FetchObject<StateManager>();
+
+                Debug.Assert( lStates != null );
+                if( lStates != null )
+                {
+                    lStates.PopState();
+                }
+            }
         }
 	}
 }
