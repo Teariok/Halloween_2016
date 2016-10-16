@@ -27,14 +27,19 @@ namespace Teario.Halloween
         private float m_Duration;
         [SerializeField]
         private eType m_Type;
+        [SerializeField]
+        private bool m_AutoStart;
 
         private eState m_State;
         private float m_Timer;
         private bool m_Reverse;
 
-        public virtual void OnEnable()
+        public virtual void Start()
         {
-            Restart();
+            if( m_AutoStart )
+            {
+                Play();
+            }
         }
         
         void Update()
@@ -58,7 +63,7 @@ namespace Teario.Halloween
                 }
                 else
                 {
-                    UpdateTween( 1f );
+                    UpdateTween( m_Reverse ? 0f : 1f );
                     
                     if( m_Type == eType.TYPE_ONCE )
                     {
@@ -76,6 +81,9 @@ namespace Teario.Halloween
                         }
 
                         Restart();
+
+                        // Skip delays when looping
+                        m_State = eState.STATE_TWEEN;
                     }
                 }
             }
@@ -86,21 +94,20 @@ namespace Teario.Halloween
         public void Play()
         {
             m_Reverse = false;
+
+            Restart();
         }
 
         public void Reverse()
         {
             m_Reverse = true;
+
+            Restart();
         }
 
         public float GetPosition()
         {
             float lProgress = m_Timer / m_Duration;
-
-            if( m_Reverse )
-            {
-                return 1f - lProgress;
-            }
 
             return lProgress;
         }
@@ -109,8 +116,6 @@ namespace Teario.Halloween
         {
             m_State = eState.STATE_DELAY;
             m_Timer = 0f;
-
-            //UpdateTween( GetPosition() );
         }
     }
 }

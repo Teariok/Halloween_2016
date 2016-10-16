@@ -14,13 +14,13 @@ namespace Teario.Halloween
         private Vector3 m_CurrentPos;
         private Vector3 m_MoveDistance;
 
-    	override public void OnEnable()
+    	override public void Start()
         {
     	    m_CachedTransform = transform;
             m_MoveDistance = m_EndPos - m_StartPos;
             m_CurrentPos = m_StartPos;
-            
-            base.OnEnable();
+
+            base.Start();
     	}
     	
         override protected void UpdateTween( float lProgress)

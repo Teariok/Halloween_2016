@@ -14,14 +14,14 @@ namespace Teario.Halloween
         private Light m_Light;
         private float m_ChangeAmount;
 
-        override public void OnEnable()
+        override public void Start()
         {
             m_Light = GetComponent<Light>();
             Debug.Assert( m_Light != null );
 
             m_ChangeAmount = m_EndValue - m_StartValue;
 
-            base.OnEnable();
+            base.Start();
         }
         
         override protected void UpdateTween( float lProgress )

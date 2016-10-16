@@ -14,14 +14,14 @@ namespace Teario.Halloween
         private Graphic m_Image;
         private float m_ChangeAmount;
 
-        override public void OnEnable()
+        override public void Start()
         {
             m_Image = GetComponent<Graphic>();
             Debug.Assert( m_Image != null );
 
             m_ChangeAmount = m_EndAlpha - m_StartAlpha;
 
-            base.OnEnable();
+            base.Start();
         }
         
         override protected void UpdateTween( float lProgress )
