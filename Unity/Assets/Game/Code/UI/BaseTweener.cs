@@ -13,12 +13,20 @@ namespace Teario.Halloween
             STATE_COMPLETE
         };
 
+        public enum eType
+        {
+            TYPE_ONCE,
+            TYPE_SWITCH
+        }
+
         [SerializeField]
         private float m_Delay;
         [SerializeField]
         private AnimationCurve m_Animation;
         [SerializeField]
         private float m_Duration;
+        [SerializeField]
+        private eType m_Type;
 
         private eState m_State;
         private float m_Timer;
@@ -26,10 +34,7 @@ namespace Teario.Halloween
 
         public virtual void OnEnable()
         {
-            m_State = eState.STATE_DELAY;
-            m_Timer = 0f;
-
-            UpdateTween( 0f );
+            Restart();
         }
         
         void Update()
@@ -54,7 +59,24 @@ namespace Teario.Halloween
                 else
                 {
                     UpdateTween( 1f );
-                    m_State = eState.STATE_COMPLETE;
+                    
+                    if( m_Type == eType.TYPE_ONCE )
+                    {
+                        m_State = eState.STATE_COMPLETE;
+                    }
+                    else if( m_Type == eType.TYPE_SWITCH )
+                    {
+                        if( m_Reverse )
+                        {
+                            Play();
+                        }
+                        else
+                        {
+                            Reverse();
+                        }
+
+                        Restart();
+                    }
                 }
             }
         }
@@ -64,13 +86,11 @@ namespace Teario.Halloween
         public void Play()
         {
             m_Reverse = false;
-            enabled = true;
         }
 
         public void Reverse()
         {
             m_Reverse = true;
-            enabled = true;
         }
 
         public float GetPosition()
@@ -83,6 +103,14 @@ namespace Teario.Halloween
             }
 
             return lProgress;
+        }
+
+        private void Restart()
+        {
+            m_State = eState.STATE_DELAY;
+            m_Timer = 0f;
+
+            //UpdateTween( GetPosition() );
         }
     }
 }
