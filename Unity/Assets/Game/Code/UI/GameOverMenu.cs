@@ -10,10 +10,12 @@ namespace Teario.Halloween
         [SerializeField]
         private BaseTweener m_TriggerTween;
 
+        private BaseTweener[] m_Tweens;
+
         private EventRouter m_EventRouter;
         private bool m_PendingEventTrigger;
 
-        void Start()
+        void Awake()
         {
             Debug.Assert( m_TriggerTween != null );
 
@@ -22,11 +24,24 @@ namespace Teario.Halloween
 
             m_EventRouter = lLocator.FetchObject<EventRouter>();
             Debug.Assert( m_EventRouter != null );
+
+            m_Tweens = GetComponentsInChildren<BaseTweener>( true );
+            Debug.Assert( m_Tweens != null );
         }
 
         public override void OnPostEnter()
         {
             m_PendingEventTrigger = true;
+
+            for( int i = 0; i < m_Tweens.Length; ++i )
+            {
+                m_Tweens[i].Play();
+            }
+        }
+
+        public override void OnPreExit( System.Action lCallback )
+        {
+            StartCoroutine( ExitTransition(lCallback) );
         }
 
         void Update()
@@ -36,6 +51,23 @@ namespace Teario.Halloween
                 m_PendingEventTrigger = false;
                 m_EventRouter.TriggerEvent( "game_covered" );
             }
+        }
+
+        private IEnumerator ExitTransition( System.Action lCallback )
+        {
+            for( int i = 0; i < m_Tweens.Length; ++i )
+            {
+                m_Tweens[i].Reverse();
+            }
+
+            WaitForEndOfFrame lFrameWait = new WaitForEndOfFrame();
+
+            while( m_Tweens[m_Tweens.Length-1].GetPosition() < 1f )
+            {
+                yield return lFrameWait;
+            }
+
+            lCallback();
         }
     }
 }
