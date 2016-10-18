@@ -16,7 +16,7 @@ namespace Teario.Util
 
         public override bool IsSelectable()
         {
-#if UNITY_EDITOR
+#if UNITY_EDITOR || !UNITY_STANDALONE
             return Input.mousePresent && !m_ForceDisabled;
 #else
             return false;
