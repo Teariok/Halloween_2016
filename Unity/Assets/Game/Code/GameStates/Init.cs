@@ -29,7 +29,7 @@ namespace Teario.Halloween
 
         void Update()
         {
-            if( m_Dispenser != null && m_Dispenser.HasRemoteDevice() && m_WeaponController != null )
+            if( m_Dispenser != null && (m_Dispenser.HasRemoteDevice() || !m_Dispenser.enabled) && m_WeaponController != null )
             {
                 if( m_WeaponController.GetRegistrationState() == WeaponController.eWeaponState.REGISTERED )
                 {
@@ -46,7 +46,7 @@ namespace Teario.Halloween
 
         void OnGUI()
         {
-            if( m_Dispenser != null && !m_Dispenser.HasRemoteDevice() )
+            if( m_Dispenser != null && m_Dispenser.HasRemoteDevice() && m_Dispenser.enabled )
             {
                 UpdateElementPos( 140, 20 );
                  GUI.Label( m_UIElementPos, "Searching for Dispenser" );
