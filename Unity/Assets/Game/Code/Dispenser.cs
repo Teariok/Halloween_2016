@@ -23,11 +23,13 @@ namespace Teario.Halloween
 
 		[SerializeField]
 		private ObjectLocator m_ObjectLocator;
+        [SerializeField]
+        private int m_PayoutInterval;
+
+        private int m_PayoutStep;
 	
 		void Start()
 		{
-			//InitSerialPort();
-
 			Debug.Assert( m_ObjectLocator != null );
 			if( m_ObjectLocator != null )
 			{
@@ -35,14 +37,20 @@ namespace Teario.Halloween
 				Debug.Assert( lEvents != null );
 				if( lEvents != null )
 				{
+                    lEvents.RegisterListener( "game_start", Reset );
 					lEvents.RegisterListener( "enemy_destroyed", OnEnemyDespawned );
 				}
 			}
 		}
 
+        void Reset()
+        {
+            m_PayoutStep = 0;
+        }
+
         void OnDisable()
         {
-            DestroyRemoveDevice();
+            DestroyRemoteDevice();
         }
 
         private string[] FetchAvailablePorts()
@@ -70,7 +78,7 @@ namespace Teario.Halloween
             }
 		}
 
-        private void DestroyRemoveDevice()
+        private void DestroyRemoteDevice()
         {
             DestroyDevice();
         }
@@ -121,7 +129,12 @@ namespace Teario.Halloween
         {
             if( IsDeviceIdentified() )
             {
-                TriggerDevice();
+                ++m_PayoutStep;
+                if( m_PayoutStep % m_PayoutInterval == 0)
+                {
+                    m_PayoutStep = 0;
+                    TriggerDevice();
+                }
             }
         }
 	}
