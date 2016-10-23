@@ -7,6 +7,7 @@ namespace Teario.Halloween
     public class Init : BaseState
     {
         private ObjectLocator m_ObjectLocator = null;
+        private Dispenser m_Dispenser = null;
         private WeaponController m_WeaponController = null;
         private Rect m_UIElementPos = new Rect( 0,0,0,0 );
 
@@ -17,6 +18,10 @@ namespace Teario.Halloween
 
             if( m_ObjectLocator != null )
             {
+                m_Dispenser = m_ObjectLocator.FetchObject<Dispenser>();
+                Debug.Assert( m_Dispenser != null );
+                m_Dispenser.InitRemoteDevice();
+
                 m_WeaponController = m_ObjectLocator.FetchObject<WeaponController>();
                 Debug.Assert( m_WeaponController != null );
             }
@@ -24,7 +29,7 @@ namespace Teario.Halloween
 
         void Update()
         {
-            if( m_WeaponController != null )
+            if( m_Dispenser != null && m_Dispenser.HasRemoteDevice() && m_WeaponController != null )
             {
                 if( m_WeaponController.GetRegistrationState() == WeaponController.eWeaponState.REGISTERED )
                 {
@@ -41,7 +46,12 @@ namespace Teario.Halloween
 
         void OnGUI()
         {
-            if( m_WeaponController != null )
+            if( m_Dispenser != null && !m_Dispenser.HasRemoteDevice() )
+            {
+                UpdateElementPos( 140, 20 );
+                 GUI.Label( m_UIElementPos, "Searching for Dispenser" );
+            }
+            else if( m_WeaponController != null )
             {
                 WeaponController.eWeaponState lState = m_WeaponController.GetRegistrationState();
 

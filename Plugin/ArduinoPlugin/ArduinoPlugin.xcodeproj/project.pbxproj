@@ -1,0 +1,267 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		87D10E7A1DBBC278005F1018 /* AruinoPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87D10E781DBBC278005F1018 /* AruinoPlugin.cpp */; };
+		87D10E7D1DBBDAE7005F1018 /* RemoteDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 87D10E7B1DBBDAE7005F1018 /* RemoteDevice.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		87427B681DB6D74F00BBBAC6 /* ArduinoPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ArduinoPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		87427B6B1DB6D74F00BBBAC6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		87D10E781DBBC278005F1018 /* AruinoPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AruinoPlugin.cpp; sourceTree = "<group>"; };
+		87D10E791DBBC278005F1018 /* AruinoPlugin.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AruinoPlugin.hpp; sourceTree = "<group>"; };
+		87D10E7B1DBBDAE7005F1018 /* RemoteDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RemoteDevice.cpp; sourceTree = "<group>"; };
+		87D10E7C1DBBDAE7005F1018 /* RemoteDevice.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = RemoteDevice.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		87427B651DB6D74F00BBBAC6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		87427B5F1DB6D74F00BBBAC6 = {
+			isa = PBXGroup;
+			children = (
+				87427B6A1DB6D74F00BBBAC6 /* ArduinoPlugin */,
+				87427B691DB6D74F00BBBAC6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		87427B691DB6D74F00BBBAC6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				87427B681DB6D74F00BBBAC6 /* ArduinoPlugin.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		87427B6A1DB6D74F00BBBAC6 /* ArduinoPlugin */ = {
+			isa = PBXGroup;
+			children = (
+				87427B6B1DB6D74F00BBBAC6 /* Info.plist */,
+				87D10E781DBBC278005F1018 /* AruinoPlugin.cpp */,
+				87D10E791DBBC278005F1018 /* AruinoPlugin.hpp */,
+				87D10E7B1DBBDAE7005F1018 /* RemoteDevice.cpp */,
+				87D10E7C1DBBDAE7005F1018 /* RemoteDevice.hpp */,
+			);
+			path = ArduinoPlugin;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		87427B671DB6D74F00BBBAC6 /* ArduinoPlugin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87427B6E1DB6D74F00BBBAC6 /* Build configuration list for PBXNativeTarget "ArduinoPlugin" */;
+			buildPhases = (
+				87427B641DB6D74F00BBBAC6 /* Sources */,
+				87427B651DB6D74F00BBBAC6 /* Frameworks */,
+				87427B661DB6D74F00BBBAC6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ArduinoPlugin;
+			productName = ArduinoPlugin;
+			productReference = 87427B681DB6D74F00BBBAC6 /* ArduinoPlugin.bundle */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		87427B601DB6D74F00BBBAC6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0730;
+				ORGANIZATIONNAME = Teario;
+				TargetAttributes = {
+					87427B671DB6D74F00BBBAC6 = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+				};
+			};
+			buildConfigurationList = 87427B631DB6D74F00BBBAC6 /* Build configuration list for PBXProject "ArduinoPlugin" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 87427B5F1DB6D74F00BBBAC6;
+			productRefGroup = 87427B691DB6D74F00BBBAC6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				87427B671DB6D74F00BBBAC6 /* ArduinoPlugin */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		87427B661DB6D74F00BBBAC6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		87427B641DB6D74F00BBBAC6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87D10E7A1DBBC278005F1018 /* AruinoPlugin.cpp in Sources */,
+				87D10E7D1DBBDAE7005F1018 /* RemoteDevice.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		87427B6C1DB6D74F00BBBAC6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		87427B6D1DB6D74F00BBBAC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		87427B6F1DB6D74F00BBBAC6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ArduinoPlugin/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_BUNDLE_IDENTIFIER = com.teario.ArduinoPlugin;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Debug;
+		};
+		87427B701DB6D74F00BBBAC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = ArduinoPlugin/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_BUNDLE_IDENTIFIER = com.teario.ArduinoPlugin;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				WRAPPER_EXTENSION = bundle;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		87427B631DB6D74F00BBBAC6 /* Build configuration list for PBXProject "ArduinoPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87427B6C1DB6D74F00BBBAC6 /* Debug */,
+				87427B6D1DB6D74F00BBBAC6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		87427B6E1DB6D74F00BBBAC6 /* Build configuration list for PBXNativeTarget "ArduinoPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87427B6F1DB6D74F00BBBAC6 /* Debug */,
+				87427B701DB6D74F00BBBAC6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 87427B601DB6D74F00BBBAC6 /* Project object */;
+}
