@@ -18,6 +18,8 @@ namespace Teario.Halloween
         private Camera m_ViewCamera;
         [SerializeField]
         private float m_MaxFireDistance;
+        [SerializeField]
+        private AudioClip m_FireSound;
     
         private bool m_CanFire;
         private eWeaponState m_WeaponState = eWeaponState.UNREGISTERED;
@@ -25,12 +27,15 @@ namespace Teario.Halloween
         private int m_ActiveInput;
         private Ray m_FireRay;
         private RaycastHit m_RaycastInfo;
+        private AudioSource m_AudioSource;
 
         void Start()
         {
             m_CanFire = false;
             m_AvailableInputs = null;
             m_ActiveInput = -1;
+            m_AudioSource = GetComponent<AudioSource>();
+            Debug.Assert( m_AudioSource != null );
         }
 
         public void SetFiringEnabled( bool lEnabled )
@@ -98,6 +103,7 @@ namespace Teario.Halloween
 
                 if( lActiveInput != null && lActiveInput.GetButtonState( BaseInput.eInputButton.BUTTON_MAIN_ACTION ) == BaseInput.eButtonState.STATE_PUSHED )
                 {
+                    m_AudioSource.PlayOneShot( m_FireSound );
                     m_FireRay = m_ViewCamera.ScreenPointToRay( lActiveInput.GetCursorPosition() );
                     if( Physics.Raycast( m_FireRay, out m_RaycastInfo, m_MaxFireDistance ) )
                     {
