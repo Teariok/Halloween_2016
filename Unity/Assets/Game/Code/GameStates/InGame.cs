@@ -95,6 +95,7 @@ namespace Teario.Halloween
 
         private void OnPlayerKilled()
         {
+            m_MenuManager.ClearStack();
             m_MenuManager.PushMenu( typeof(GameOverMenu) );
         }
 

@@ -46,10 +46,10 @@ namespace Teario.Halloween
 
         void OnGUI()
         {
-            if( m_Dispenser != null && m_Dispenser.HasRemoteDevice() && m_Dispenser.enabled )
+            if( m_Dispenser != null && !m_Dispenser.HasRemoteDevice() && m_Dispenser.enabled )
             {
                 UpdateElementPos( 140, 20 );
-                 GUI.Label( m_UIElementPos, "Searching for Dispenser" );
+                GUI.Label( m_UIElementPos, "Searching for Dispenser" );
             }
             else if( m_WeaponController != null )
             {

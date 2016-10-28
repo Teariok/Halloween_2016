@@ -24,6 +24,7 @@ namespace Teario.Halloween
 
                 m_EventRouter.RegisterListener( "game_start", OnGameStarted );
                 m_EventRouter.RegisterListener( "enemy_attack_complete", OnEnemyAttackFinished );
+                m_EventRouter.RegisterListener( "game_expired", OnEnemyAttackFinished );
             }
 
 			//m_InitialDirection = transform.rotation;

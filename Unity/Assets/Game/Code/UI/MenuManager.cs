@@ -99,8 +99,20 @@ namespace Teario.Util
 			return false;
 		}
 
-		public void Reset()
-		{
-		}
+        public void ClearStack()
+        {
+            if( m_Menus.Count > 0 )
+            {
+                BaseMenu lCurrent = m_Menus.Pop();
+
+                Debug.Assert( lCurrent != null );
+    
+                lCurrent.OnPreExit( ()=>{} );
+                lCurrent.gameObject.SetActive( false );
+                lCurrent.OnPostExit();
+
+                m_Menus.Clear();
+            }
+        }
 	}
 }
