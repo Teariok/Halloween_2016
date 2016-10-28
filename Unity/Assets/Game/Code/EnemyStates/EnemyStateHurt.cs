@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Teario.Util;
 
 namespace Teario.Halloween
 {
@@ -13,6 +14,10 @@ namespace Teario.Halloween
 
         public override void EnterState()
         {
+            AudioClip lClip = GetAudioProvider().GetRandom( m_AudioName );
+            Debug.Assert( lClip != null );
+            m_AudioSource.PlayOneShot( lClip );
+
             int lAnimIdx = Random.Range( 0, ANIMATION_NAMES.Length );
             PlayAnimation( ANIMATION_NAMES[lAnimIdx], () => {
                 m_StateExitCallback( typeof(EnemyStateSeekPlayer) );

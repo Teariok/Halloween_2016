@@ -34,6 +34,10 @@ namespace Teario.Halloween
 
             PlayAnimation( ANIMATION_NAME );
             m_AttackGraceTimer = m_AttackGraceDuration;
+
+            AudioClip lClip = GetAudioProvider().GetRandom( m_AudioName );
+            Debug.Assert( lClip != null );
+            m_AudioSource.PlayOneShot( lClip );
         }
         
         public override void ExitState()

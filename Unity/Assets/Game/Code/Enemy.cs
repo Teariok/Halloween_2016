@@ -14,12 +14,12 @@ namespace Teario.Halloween
         private ParticleSystem m_SpawnParticleSystem;
         [SerializeField]
         private ParticleSystem m_DespawnParticleSystem;
-
 		
 		private int m_Health;
 		private EventRouter m_EventRouter;
         private EnemyStateController m_StateController;
         private bool m_IsInitialised = false;
+        private AudioSource m_AudioSource;
 	
 		void Start()
 		{
@@ -42,6 +42,9 @@ namespace Teario.Halloween
                 m_StateController = GetComponentInChildren<EnemyStateController>();
                 Debug.Assert( m_StateController != null, "Failed to find enemy state controller" );
 
+                AudioSource lAudioSource = GetComponent<AudioSource>();
+                Debug.Assert( lAudioSource != null );
+
                 NavMeshAgent lNavAgent = GetComponent<NavMeshAgent>();
                 Debug.Assert( lNavAgent != null, "Failed to find Navigation Agent" );
                 if( lNavAgent != null )
@@ -52,16 +55,30 @@ namespace Teario.Halloween
                     Debug.Assert( lSeekBehaviour != null );
                     lSeekBehaviour.SetNavigationAgent( lNavAgent );
                     lSeekBehaviour.SetMoveSpeed( m_WalkSpeed );
+                    lSeekBehaviour.SetAudioSource( lAudioSource );
                 }
 
                 Renderer lRenderer = GetComponentInChildren<Renderer>();
                 Debug.Assert( lRenderer != null && lRenderer.material != null );
+
+                EnemyStateIdle lIdleBehaviour = (EnemyStateIdle)m_StateController.FetchState( typeof(EnemyStateIdle) );
+                Debug.Assert( lIdleBehaviour != null );
+                lIdleBehaviour.SetAudioSource( lAudioSource );
 
                 EnemyStateDie lDeathBehaviour = (EnemyStateDie)m_StateController.FetchState( typeof(EnemyStateDie) );
                 Debug.Assert( lDeathBehaviour != null );
                 lDeathBehaviour.RegisterCompletionListener( Despawn );
                 lDeathBehaviour.SetDespawnParticleSystem( m_DespawnParticleSystem );
                 lDeathBehaviour.SetMaterial( lRenderer.material );
+                lDeathBehaviour.SetAudioSource( lAudioSource );
+
+                EnemyStateHurt lHurtState = (EnemyStateHurt)m_StateController.FetchState( typeof(EnemyStateHurt) );
+                Debug.Assert( lHurtState != null );
+                lHurtState.SetAudioSource( lAudioSource );
+
+                EnemyStateAttackPlayer lAttackState = (EnemyStateAttackPlayer)m_StateController.FetchState( typeof(EnemyStateAttackPlayer) );
+                Debug.Assert( lAttackState != null );
+                lAttackState.SetAudioSource( lAudioSource );
 
                 EnemyStateSpawn lSpawnBehaviour = (EnemyStateSpawn)m_StateController.FetchState( typeof(EnemyStateSpawn) );
                 Debug.Assert( lSpawnBehaviour != null );
@@ -78,6 +95,9 @@ namespace Teario.Halloween
 
                     lDeathBehaviour.SetNavigationObstacle( lNavObstacle );
                 }
+
+                m_AudioSource = GetComponent<AudioSource>();
+                Debug.Assert( m_AudioSource != null );
 
                 m_IsInitialised = true;
             }

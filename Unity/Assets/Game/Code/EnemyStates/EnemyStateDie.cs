@@ -26,6 +26,10 @@ namespace Teario.Halloween
             m_NavObstacle.enabled = true;
             m_DespawnParticleSystem.Play();
 
+            AudioClip lClip = GetAudioProvider().GetRandom( m_AudioName );
+            Debug.Assert( lClip != null );
+            m_AudioSource.PlayOneShot( lClip );
+
             PlayAnimation( ANIMATION_NAME );
         }
         
@@ -69,5 +73,7 @@ namespace Teario.Halloween
         {
             m_DespawnParticleSystem = lParticleSystem;
         }
+
+        
     }
 }

@@ -9,13 +9,30 @@ namespace Teario.Halloween
 
         [SerializeField]
         private float m_AttackRadius;
+        [SerializeField]
+        private int m_AudioPlayMin;
+        [SerializeField]
+        private int m_AudioPlayMax;
 
         private NavMeshAgent m_NavAgent;
         private float m_Speed;
+        private float m_AudioTimer;
     
         private const string ANIMATION_WALK_NAME = "walk";
         private const string ANIMATION_RUN_NAME = "run";
         private const float RUN_SWITCH_SPEED = 4f;
+
+        void Update()
+        {
+            if( (m_AudioTimer -= Time.deltaTime) <= 0 )
+            {
+                m_AudioTimer = Random.Range( m_AudioPlayMin, m_AudioPlayMax );
+
+                AudioClip lClip = GetAudioProvider().GetRandom( m_AudioName );
+                Debug.Assert( lClip != null );
+                m_AudioSource.PlayOneShot( lClip );
+            }
+        }
     
         public override void EnterState()
         {

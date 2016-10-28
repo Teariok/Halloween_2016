@@ -10,6 +10,8 @@ namespace Teario.Halloween
         private const float ANIMATION_CHECK_INTERVAL = 0.25f;
 
         [SerializeField]
+        protected string m_AudioName;
+        [SerializeField]
         protected Transform m_RootTransform;
 
         private string m_CachedAnimName = null;
@@ -17,6 +19,9 @@ namespace Teario.Halloween
     
         protected AnimationController m_AnimController;
         protected System.Action<Type> m_StateExitCallback;
+
+        protected AudioSource m_AudioSource;
+        private AudioProvider m_AudioProvider;
 
         void Awake()
         {
@@ -29,6 +34,19 @@ namespace Teario.Halloween
                 m_CachedAnimName = null;
                 m_CachedAnimCallback = null;
             }
+        }
+
+        protected AudioProvider GetAudioProvider()
+        {
+            if( m_AudioProvider == null )
+            {
+                ObjectLocator lLocator = FindObjectOfType<ObjectLocator>();
+                Debug.Assert( lLocator != null );
+                m_AudioProvider = lLocator.FetchObject<AudioProvider>();
+                Debug.Assert( m_AudioProvider != null );
+            }
+
+            return m_AudioProvider;
         }
 
         public void RegisterCompletionListener( Action<Type> lListener )
@@ -78,5 +96,10 @@ namespace Teario.Halloween
     
         public virtual void EnterState(){}
         public virtual void ExitState(){}
+
+        public void SetAudioSource( AudioSource lSource )
+        {
+            m_AudioSource = lSource;
+        }
     }
 }
