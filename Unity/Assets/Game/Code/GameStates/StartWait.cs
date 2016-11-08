@@ -6,6 +6,8 @@ namespace Teario.Halloween
 {
 	public class StartWait : BaseState
 	{
+        private const float FIRING_ENABLE_DELAY = 2f;
+
 		[SerializeField]
 		private Vector3 m_TutorialEnemyPosition;
 		[SerializeField]
@@ -47,13 +49,7 @@ namespace Teario.Halloween
 
         public override void OnPostEnter()
         {
-            WeaponController lWeaponController = m_ObjectLocator.FetchObject<WeaponController>();
-            Debug.Assert( lWeaponController != null );
-
-            if( lWeaponController != null )
-            {
-                lWeaponController.SetFiringEnabled( true );
-            }
+            StartCoroutine( EnableFiring() );
         }
 
 		public override void OnPreExit()
@@ -92,6 +88,19 @@ namespace Teario.Halloween
 				}
 			}
 		}
+
+        private IEnumerator EnableFiring()
+        {
+            yield return new WaitForSeconds( FIRING_ENABLE_DELAY );
+
+            WeaponController lWeaponController = m_ObjectLocator.FetchObject<WeaponController>();
+            Debug.Assert( lWeaponController != null );
+
+            if( lWeaponController != null )
+            {
+                lWeaponController.SetFiringEnabled( true );
+            }
+        }
 
 #if UNITY_EDITOR
 		void OnDrawGizmos()
