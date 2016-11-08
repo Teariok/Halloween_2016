@@ -11,15 +11,9 @@ namespace Teario.Halloween
 	public class Dispenser : MonoBehaviour
 	{
         [System.Runtime.InteropServices.DllImport("ArduinoPlugin")]
-        private static extern bool CreateRemoteDevice( string pAddress );
+        private static extern bool OpenSerialPort( string pAddress );
         [System.Runtime.InteropServices.DllImport("ArduinoPlugin")]
-        private static extern bool BeginDeviceIdentification();
-        [System.Runtime.InteropServices.DllImport("ArduinoPlugin")]
-        private static extern bool TriggerDevice();
-        [System.Runtime.InteropServices.DllImport("ArduinoPlugin")]
-        private static extern bool IsDeviceIdentified();
-        [System.Runtime.InteropServices.DllImport("ArduinoPlugin")]
-        private static extern void DestroyDevice();
+        private static extern void CloseSerialPort();
 
 		[SerializeField]
 		private ObjectLocator m_ObjectLocator;
@@ -27,9 +21,13 @@ namespace Teario.Halloween
         private int m_PayoutInterval;
 
         private int m_PayoutStep;
+        private SerialPort m_SerialPort;
+        private bool m_Initialised;
 	
 		void Start()
 		{
+            m_Initialised = false;
+
 			Debug.Assert( m_ObjectLocator != null );
 			if( m_ObjectLocator != null )
 			{
@@ -51,6 +49,7 @@ namespace Teario.Halloween
         void OnDisable()
         {
             DestroyRemoteDevice();
+            m_Initialised = false;
         }
 
         private string[] FetchAvailablePorts()
@@ -72,15 +71,12 @@ namespace Teario.Halloween
 
 		public void InitRemoteDevice()
 		{
-            if( !IsDeviceIdentified() )
-            {
-                StartCoroutine( InitRemoteDeviceCR() );
-            }
+            StartCoroutine( InitRemoteDeviceCR() );
 		}
 
         private void DestroyRemoteDevice()
         {
-            DestroyDevice();
+            EndSerial();
         }
 
         private IEnumerator InitRemoteDeviceCR()
@@ -92,16 +88,20 @@ namespace Teario.Halloween
             string[] lPorts = FetchAvailablePorts();
             if( lPorts != null && lPorts.Length > 0 )
             {
-                WaitForSeconds lDelay = new WaitForSeconds( WAIT_TIME );
-    
                 for( int i = 0; i < lPorts.Length && !lComplete; ++i )
                 {
-                    CreateRemoteDevice( lPorts[i] );
-                    BeginDeviceIdentification();
+                    if( !BeginSerial( lPorts[i] ) )
+                    {
+                        continue;
+                    }
 
-                    yield return lDelay;
+                    yield return new WaitForSeconds( 5f );
 
-                    for( int r = 0; r < IDENTIFY_RETRIES; ++r )
+                    m_SerialPort.Write( new byte[]{0xFF}, 0, 1 );
+
+                    yield return new WaitForSeconds( 2f );
+
+                    /*for( int r = 0; r < IDENTIFY_RETRIES; ++r )
                     {
                         if( IsDeviceIdentified() )
                         {
@@ -115,25 +115,55 @@ namespace Teario.Halloween
                     if( !lComplete )
                     {
                         DestroyDevice();
-                    }
+                    }*/
                 }
             }
+
+            m_Initialised = true;
+        }
+
+        private bool BeginSerial( string lPort )
+        {
+            bool lResult = false;
+
+            #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+                lResult = OpenSerialPort( lPort );
+            #endif
+
+            if( lResult )
+            {
+                m_SerialPort = new SerialPort( lPort );
+                m_SerialPort.Open();
+            }
+
+            return lResult;
+        }
+
+        private void EndSerial()
+        {
+            if( HasRemoteDevice() )
+            {
+                m_SerialPort.Close();
+                m_SerialPort = null;
+            }
+
+            CloseSerialPort();
         }
 
         public bool HasRemoteDevice()
         {
-            return IsDeviceIdentified();
+            return m_Initialised && m_SerialPort != null && m_SerialPort.IsOpen;
         }
 
         private void OnEnemyDespawned()
         {
-            if( IsDeviceIdentified() )
+            if( HasRemoteDevice() )
             {
                 ++m_PayoutStep;
                 if( m_PayoutStep % m_PayoutInterval == 0)
                 {
                     m_PayoutStep = 0;
-                    TriggerDevice();
+                    m_SerialPort.Write( new byte[]{0xFF}, 0, 1 );
                 }
             }
         }

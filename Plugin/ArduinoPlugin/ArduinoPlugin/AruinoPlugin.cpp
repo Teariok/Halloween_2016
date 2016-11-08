@@ -7,72 +7,46 @@
 //
 
 #include "AruinoPlugin.hpp"
-#include "RemoteDevice.hpp"
 #include <iostream>
 #include <stdio.h>
 #include <unistd.h>
+#include <iostream>
+#include <fcntl.h>
+#include <termios.h>
 
-char* CopyString( const char* pOriginal )
+int m_CommsHandle;
+
+bool OpenSerialPort( char* pAddress )
 {
-    size_t length = strlen( pOriginal ) + 1;
-    
-    char* pCopy = new char[length];
-    memcpy( pCopy, pOriginal, length );
-    
-    return pCopy;
-}
-
-RemoteDevice* m_pRemoteDevice = NULL;
-
-bool CreateRemoteDevice( char* pAddress )
-{
-    char* pAddressCopy = CopyString( pAddress );
-    if( m_pRemoteDevice == NULL )
+    m_CommsHandle = open( pAddress, O_RDWR | O_NOCTTY | O_NDELAY );
+    if( m_CommsHandle < 0 )
     {
-        m_pRemoteDevice = new RemoteDevice( pAddressCopy );
-        return true;
+        return false;
     }
     
-    return false;
-}
-
-bool BeginDeviceIdentification()
-{
-    if( m_pRemoteDevice != NULL )
-    {
-        m_pRemoteDevice->BeginIdentification();
-        return true;
-    }
+    struct termios options;
     
-    return false;
-}
-
-bool TriggerDevice()
-{
-    if( m_pRemoteDevice != NULL )
-    {
-        m_pRemoteDevice->Trigger();
-        return true;
-    }
+    tcgetattr(m_CommsHandle, &options);
     
-    return false;
-}
-
-bool IsDeviceIdentified()
-{
-    if( m_pRemoteDevice != NULL )
-    {
-        return m_pRemoteDevice->IsIdentified();
-    }
+    cfsetispeed(&options, B9600);
+    cfsetospeed(&options, B9600);
     
-    return false;
+    options.c_cflag &= ~PARENB;
+    options.c_cflag &= ~CSTOP;
+    options.c_cflag &= ~CSIZE;
+    options.c_cflag |= CS8;
+    options.c_cflag |= (CLOCAL | CREAD);
+    
+    tcsetattr(m_CommsHandle, TCSANOW, &options);
+    
+    return true;
 }
 
-void DestroyDevice()
+void CloseSerialPort()
 {
-    if( m_pRemoteDevice != NULL )
+    if( m_CommsHandle >= 0 )
     {
-        delete m_pRemoteDevice;
-        m_pRemoteDevice = NULL;
+        close( m_CommsHandle );
+        m_CommsHandle = -1;
     }
 }

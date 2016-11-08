@@ -10,11 +10,8 @@
 #define AruinoPlugin_hpp
 
 extern "C" {
-    bool CreateRemoteDevice( char* pAddress );
-    bool BeginDeviceIdentification();
-    bool TriggerDevice();
-    bool IsDeviceIdentified();
-    void DestroyDevice();
+    bool OpenSerialPort( char* pAddress );
+    void CloseSerialPort();
 }
 
 #endif /* AruinoPlugin_hpp */
