@@ -7,7 +7,7 @@ namespace Teario.Util
     public class PointerFollower : MonoBehaviour
     {
         [SerializeField]
-        private Image m_Image;
+        private RawImage m_Image;
     
         private BaseInput m_Controller;
     
