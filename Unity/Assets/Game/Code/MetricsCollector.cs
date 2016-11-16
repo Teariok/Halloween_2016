@@ -65,7 +65,7 @@ namespace Teario.Halloween
             string lData = JsonUtility.ToJson(m_Session);
             Debug.LogError(lData);
 
-            System.IO.File.WriteAllText( string.Format( "{0}/{1}.{2}", m_LogFolder, GetTimestamp(), ".log" ), lData );
+            System.IO.File.WriteAllText( string.Format( "{0}/{1}.{2}", m_LogFolder, GetTimestamp(), ".json" ), lData );
         }
 
         private double GetTimestamp()
